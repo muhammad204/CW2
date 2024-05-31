@@ -48,7 +48,7 @@ app.get("/collection/:collectionName", (req, res) => {
 });
 
 // Search
-app.post("/search/collection/lessons/", (req, res) => {
+app.post("/search/collection/courses/", (req, res) => {
   try {
     var search = req.body.search;
     var sort = req.body.sort || "title";
@@ -66,7 +66,7 @@ app.post("/search/collection/lessons/", (req, res) => {
       search = {};
     }
 
-    db.collection("lessons")
+    db.collection("courses")
       .find(search)
       .sort({ [sort]: order })
       .toArray()
