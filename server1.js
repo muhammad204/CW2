@@ -97,5 +97,8 @@ app.post('search/collection/:collectionName', (req, res, next) => {
         res.send(results)
     }
     )
-})
+});
 
+app.listen(3000, ()=>{
+    console.log("Express.js server running at port 3000")
+})
