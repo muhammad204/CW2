@@ -1,9 +1,11 @@
 const express = require("express");
 
+//Configuring the Express App
 const app = express();
-
 app.use(express.json());
 app.set("port", 3000);
+
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -14,8 +16,11 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+// Static file serving
 app.use(express.static(__dirname + "/static"))
 
+// Connecting to mongoDB
 const { MongoClient, ObjectId } = require("mongodb");
 const client = new MongoClient(
   "mongodb+srv://muhammadidris204:King7Muhammad7@cluster0.lrrwmeo.mongodb.net/"
@@ -29,11 +34,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// Root route
 app.get("/", (req, res) => {
   res.send("Select a collection, e.g., /collection/lessons");
 });
 
-// retrieve all the object from an collection
+// Retrieve all the object from an collection
 app.get("/collection/:collectionName", (req, res) => {
   try {
     db.collection(req.params.collectionName)
@@ -47,7 +53,7 @@ app.get("/collection/:collectionName", (req, res) => {
   }
 });
 
-// Search
+// Search in "courses" collection (query)
 app.post("/search/collection/courses/", (req, res) => {
   try {
     var search = req.body.search;
@@ -78,7 +84,7 @@ app.post("/search/collection/courses/", (req, res) => {
   }
 });
 
-//to insert a document to the collection
+//Insert a document into collection "courses"
 app.post("/collection/:collectionName", (req, res) => {
   try {
     db.collection(req.params.collectionName)
@@ -91,6 +97,7 @@ app.post("/collection/:collectionName", (req, res) => {
   }
 });
 
+// GET a single document by ID
 app.get("/collection/:collectionName/:id", (req, res) => {
   try {
     db.collection(req.params.collectionName)
@@ -116,6 +123,7 @@ app.put("/collection/:collectionName/:id", (req, res) => {
   }
 });
 
+// Delete a Document by ID
 app.delete("/collection/:collectionName/:id", (req, res) => {
   try {
     db.collection(req.params.collectionName)
@@ -128,6 +136,7 @@ app.delete("/collection/:collectionName/:id", (req, res) => {
   }
 });
 
+// Stating the server
 app.listen(3000, () => {
   console.log("Express.js server running at PORT 3000");
 });
